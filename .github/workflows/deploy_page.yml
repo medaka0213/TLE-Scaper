@@ -31,9 +31,9 @@ jobs:
           TLE_LIST: ${{ secrets.TLE_LIST }}
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        env:
-          OUTPUT_DIR: "./docs"
+        uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+          branch: gh-pages
+          folder: ./docs
+          clean: true
+          commit-message: Deploy as of ${GITHUB_SHA}
