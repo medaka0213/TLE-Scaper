@@ -26,7 +26,9 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Python script
-        run: python cli.py save-batch
+        run: |
+          python cli.py save-batch
+          python cli.py gen-html
         env:
           TLE_LIST: ${{ secrets.TLE_LIST }}
           OUTPUT_DIR: ./docs
