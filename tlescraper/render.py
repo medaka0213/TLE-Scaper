@@ -9,7 +9,11 @@ def search_files(rootDir="."):
 
     for dirName, subdirList, fileList in os.walk(rootDir):
         for fname in fileList:
-            files.append(os.path.relpath(os.path.join(dirName, fname), rootDir))
+            files.append(
+                os.path.relpath(os.path.join(dirName, fname), rootDir).replace(
+                    "\\", "/"
+                )
+            )
     return files
 
 
@@ -34,7 +38,7 @@ def generate_index_html(rootDir="."):
     files = search_files(rootDir)
     output = render_files(
         "templates/index.html.j2",
-        os.path.join(rootDir, "index.html"),
+        os.path.join(rootDir, "index.html").replace("\\", "/"),
         files=files,
     )
     return output

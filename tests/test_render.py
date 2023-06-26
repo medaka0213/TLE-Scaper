@@ -10,7 +10,7 @@ class TestHtmlRender(unittest.TestCase):
             (".", ("dir1",), ("file1.txt", "file2.txt")),
             ("./dir1", (), ("file3.txt",)),
         ]
-        expected = ["file1.txt", "file2.txt", "dir1\\file3.txt"]
+        expected = ["file1.txt", "file2.txt", "dir1/file3.txt"]
         self.assertEqual(render.search_files("."), expected)
 
     @patch("tlescraper.render.Environment")
@@ -25,7 +25,7 @@ class TestHtmlRender(unittest.TestCase):
             result = render.render_files(
                 "templates/index.html.j2",
                 "output/index.html",
-                files=["file1.txt", "file2.txt", "dir1\\file3.txt"],
+                files=["file1.txt", "file2.txt", "dir1/file3.txt"],
             )
 
         mock_os_path_exists.assert_called_once_with("output")
@@ -37,7 +37,7 @@ class TestHtmlRender(unittest.TestCase):
 
     @patch(
         "tlescraper.render.search_files",
-        return_value=["file1.txt", "file2.txt", "dir1\\file3.txt"],
+        return_value=["file1.txt", "file2.txt", "dir1/file3.txt"],
     )
     @patch("tlescraper.render.render_files", return_value="rendered template")
     def test_generate_index_html(self, mock_render_files, mock_search_files):
@@ -45,8 +45,8 @@ class TestHtmlRender(unittest.TestCase):
         mock_search_files.assert_called_once_with(".")
         mock_render_files.assert_called_once_with(
             "templates/index.html.j2",
-            ".\\index.html",
-            files=["file1.txt", "file2.txt", "dir1\\file3.txt"],
+            "./index.html",
+            files=["file1.txt", "file2.txt", "dir1/file3.txt"],
         )
         self.assertEqual(result, "rendered template")
 
