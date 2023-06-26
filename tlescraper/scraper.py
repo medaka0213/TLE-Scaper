@@ -6,13 +6,12 @@ import logging
 logger = logging.getLogger(__name__)
 
 CERESTRACK_BASE_URL = "https://celestrak.com/NORAD/elements/"
-OUTPUT_DIR = os.getenv("OUTPUT_DIR", "output")
 
 
-def save_tle(CATNR: str):
+def save_tle(CATNR: str, output_dir) -> str:
     """Saves the TLE of a satellite to a file"""
     url = f"{CERESTRACK_BASE_URL}/gp.php?CATNR={CATNR}"
-    filename = os.path.join(OUTPUT_DIR, f"{CATNR}.txt")
+    filename = os.path.join(output_dir, f"{CATNR}.txt")
 
     logger.debug(f"Loading {url} to {filename}")
     response = urllib.request.urlopen(url)
