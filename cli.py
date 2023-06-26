@@ -2,7 +2,7 @@ import click
 import logging
 import os
 import tlescraper.scraper as ts
-import tlescraper.htmlrender as hr
+import tlescraper.render as render
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -36,7 +36,7 @@ def save_batch(catnr_list):
 @click.argument("output-dir", default=OUTPUT_DIR)
 def gen_html(output_dir):
     """Generates an index.html file for a directory"""
-    hr.generate_index_html(output_dir)
+    render.generate_index_html(output_dir)
 
 
 if __name__ == "__main__":

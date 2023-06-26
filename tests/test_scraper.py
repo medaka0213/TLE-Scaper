@@ -1,7 +1,9 @@
 import os
 import unittest
 from unittest import mock
-from tlescraper.scraper import save_tle, CERESTRACK_BASE_URL, OUTPUT_DIR
+from tlescraper.scraper import save_tle, CERESTRACK_BASE_URL
+
+OUTPUT_DIR = "./output"
 
 
 class TestSaveTle(unittest.TestCase):
@@ -24,7 +26,7 @@ class TestSaveTle(unittest.TestCase):
         mock_response.read.return_value = expected_content.encode("utf-8")
         mock_urlopen.return_value = mock_response
 
-        result = save_tle(test_CATNR)
+        result = save_tle(test_CATNR, OUTPUT_DIR)
 
         # Check if the function calls are correct
         mock_urlopen.assert_called_once_with(
@@ -45,7 +47,7 @@ class TestSaveTle(unittest.TestCase):
         mock_urlopen.return_value = mock_response
 
         with self.assertRaises(Exception) as context:
-            save_tle(test_CATNR)
+            save_tle(test_CATNR, OUTPUT_DIR)
 
         self.assertTrue(
             f"Error loading {CERESTRACK_BASE_URL}/gp.php?CATNR={test_CATNR}: 404"
