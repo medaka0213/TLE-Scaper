@@ -11,8 +11,10 @@ CERESTRACK_BASE_URL = "https://celestrak.com/NORAD/elements/"
 def save_tle(CATNR: str, output_dir) -> str:
     """Saves the TLE of a satellite to a file"""
     url = f"{CERESTRACK_BASE_URL}/gp.php?CATNR={CATNR}"
+
     filename = os.path.join(output_dir, f"{CATNR}.txt")
 
+    # Get TLE from URL
     logger.debug(f"Loading {url} to {filename}")
     response = urllib.request.urlopen(url)
 
@@ -21,7 +23,7 @@ def save_tle(CATNR: str, output_dir) -> str:
         raise Exception(f"Error loading {url}: {response.getcode()}")
 
     content = response.read().decode("utf-8")
-    content = "\n".join(content.splitlines())
+    content = "\n".join(content.splitlines()) + "\n"
     logger.debug(f"Content: {content}")
 
     if len(content.splitlines()) != 3:

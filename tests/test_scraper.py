@@ -35,7 +35,7 @@ class TestSaveTle(unittest.TestCase):
         mock_os_makedirs.assert_called_once_with(os.path.dirname(expected_filename))
         mock_open.assert_called_once_with(expected_filename, "w", encoding="ascii")
 
-        self.assertEqual(result, expected_content.strip())
+        self.assertEqual(result, expected_content)
 
     @mock.patch("urllib.request.urlopen")
     def test_save_tle_failed(self, mock_urlopen):
