@@ -29,6 +29,7 @@ jobs:
         run: python cli.py save-batch
         env:
           TLE_LIST: ${{ secrets.TLE_LIST }}
+          OUTPUT_DIR: ./docs
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.5
