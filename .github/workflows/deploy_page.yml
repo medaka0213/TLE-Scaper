@@ -37,4 +37,4 @@ jobs:
           branch: gh-pages
           folder: ./docs
           clean: true
-          commit-message: Deploy as of ${GITHUB_SHA}
+          commit-message: Deploy as of ${{ github.sha }}
