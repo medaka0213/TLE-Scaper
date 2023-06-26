@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 cli = click.Group()
 
-TLE_LIST = os.environ.get("TLE_LIST", ["25544", "25399", "25994"])
+TLE_LIST = os.environ.get("TLE_LIST", ["25544", "48274", "20580"])
 
 
 @cli.command()
