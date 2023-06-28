@@ -1,6 +1,6 @@
 # TLE Scraper
 
-This Python package provides a command line interface to scrape and save TLE (Two Line Element) data for specific satellites, based on their NASA/NORAD catalogue numbers. It also includes functionality to generate an HTML index file for saved TLE data. TLE data contains information about a satellite's orbit.
+This Python command line interface to scrape and save TLE (Two Line Element) data for specific satellites, based on https://celestrak.org/. It also includes functionality to generate an HTML index file for saved TLE data. TLE data contains information about a satellite's orbit.
 
 ## Features
 
