@@ -53,9 +53,7 @@ class TestSaveTle(unittest.TestCase):
         mock_urlopen.return_value = mock_response
 
         with self.assertRaises(Exception) as context:
-            result = get_tle(test_CATNR)
-
-        print("context.exception", context.exception)
+            get_tle(test_CATNR)
 
         # Check if the function calls are correct
         self.assertTrue(
@@ -87,6 +85,27 @@ class TestSaveTle(unittest.TestCase):
         mock_open.assert_called_once_with(expected_filename, "w", encoding="ascii")
 
         self.assertEqual(result, test_content)
+
+    @mock.patch("tlescraper.scraper.get_tle")
+    @mock.patch("os.makedirs")
+    @mock.patch("os.path.exists")
+    @mock.patch("builtins.open", new_callable=mock.mock_open())
+    def test_save_tle_faliure(
+        self, mock_open, mock_os_exists, mock_os_makedirs, mock_scraper
+    ):
+        mock_os_exists.return_value = False
+        test_CATNR = "12345"
+
+        # Mock the response from urlopen
+        mock_scraper.side_effect = URLError("404")
+
+        with self.assertRaises(Exception) as context:
+            save_tle(test_CATNR, OUTPUT_DIR)
+
+        # Check if the function not called
+        mock_scraper.assert_called_once_with(test_CATNR)
+        mock_os_makedirs.asset_not_called()
+        mock_open.assert_not_called()
 
 
 if __name__ == "__main__":
