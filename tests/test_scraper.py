@@ -100,7 +100,7 @@ class TestSaveTle(unittest.TestCase):
         # Mock the response from urlopen
         mock_scraper.side_effect = URLError("404")
 
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(Exception) as _:
             save_tle(test_CATNR, OUTPUT_DIR)
 
         # Check if the function not called

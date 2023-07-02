@@ -47,7 +47,7 @@ class TestRetry(unittest.TestCase):
         def test_function():
             return function_inner()
 
-        with self.assertRaises(ValueError) as context:
+        with self.assertRaises(ValueError) as _:
             test_function()
         self.assertEqual(function_inner.call_count, 2)
 
@@ -60,7 +60,7 @@ class TestRetry(unittest.TestCase):
         def test_function():
             return function_inner()
 
-        with self.assertRaises(ValueError) as context:
+        with self.assertRaises(ValueError) as _:
             test_function()
         self.assertEqual(function_inner.call_count, 2)
 
