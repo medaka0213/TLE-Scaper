@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 CERESTRACK_BASE_URL = "https://celestrak.com/NORAD/elements/"
 
 
-@retry(max_retry=3, retry_interval=0.1)
+@retry(max_retry=3, retry_interval=0.1, raise_on=[ValueError])
 def get_tle(CATNR: str):
     url = f"{CERESTRACK_BASE_URL}/gp.php?CATNR={CATNR}"
     # Get TLE from URL
@@ -19,7 +19,7 @@ def get_tle(CATNR: str):
     content = response.read().decode("utf-8")
     content = "\n".join(content.splitlines()) + "\n"
     if len(content.splitlines()) != 3:
-        raise Exception(f"Error loading {url}: {content}")
+        raise ValueError(f"Error loading {url}: {content}")
     return content
 
 

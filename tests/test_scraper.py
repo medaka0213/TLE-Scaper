@@ -52,10 +52,11 @@ class TestSaveTle(unittest.TestCase):
         mock_response.read.return_value = expected_content.encode("utf-8")
         mock_urlopen.return_value = mock_response
 
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(ValueError) as context:
             get_tle(test_CATNR)
 
         # Check if the function calls are correct
+        self.assertEqual(mock_urlopen.call_count, 1)
         self.assertTrue(
             f"Error loading {CERESTRACK_BASE_URL}/gp.php?CATNR={test_CATNR}: {expected_content}"
             in str(context.exception)
