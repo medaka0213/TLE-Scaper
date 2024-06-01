@@ -30,7 +30,7 @@ jobs:
           python cli.py save-batch
           python cli.py gen-html
         env:
-          TLE_LIST: ${{ secrets.TLE_LIST }}
+          TLE_LIST: "42962, 49336, 49260, 20580, 54755, 40267, 43873, 46984, 48780, 47643, 25544, 48274, 57800, 49954, 28931, 58400, 58992, 59588, 43760, 59908"
           OUTPUT_DIR: ./docs
 
       - name: Deploy
