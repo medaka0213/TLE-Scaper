@@ -1,20 +1,25 @@
 # tlescraper\scraper.py
 from urllib.request import urlopen
+import ssl
 import os
 import logging
 from tlescraper.utils import retry
 
 logger = logging.getLogger(__name__)
 
-CERESTRACK_BASE_URL = "https://celestrak.com/NORAD/elements/"
+CERESTRACK_BASE_URL = "https://celestrak.com/NORAD/elements"
+
+# celestrak.com のSSL証明書が期限切れになることがあるため、検証を無効化
+_ssl_ctx = ssl.create_default_context()
+_ssl_ctx.check_hostname = False
+_ssl_ctx.verify_mode = ssl.CERT_NONE
 
 
 @retry(max_retry=3, retry_interval=0.1, raise_on=[ValueError])
 def get_tle(CATNR: str):
     url = f"{CERESTRACK_BASE_URL}/gp.php?CATNR={CATNR}"
-    # Get TLE from URL
     logger.debug(f"Loading {url}")
-    response = urlopen(url)
+    response = urlopen(url, context=_ssl_ctx)
 
     content = response.read().decode("utf-8")
     content = "\n".join(content.splitlines()) + "\n"
