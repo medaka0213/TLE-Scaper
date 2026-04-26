@@ -22,7 +22,8 @@ class TestSaveTle(unittest.TestCase):
 
         # Check if the function calls are correct
         mock_urlopen.assert_called_once_with(
-            f"{CERESTRACK_BASE_URL}/gp.php?CATNR={test_CATNR}"
+            f"{CERESTRACK_BASE_URL}/gp.php?CATNR={test_CATNR}",
+            context=mock.ANY,
         )
         self.assertEqual(result, expected_content)
 
