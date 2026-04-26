@@ -7,21 +7,22 @@ from tlescraper.utils import retry
 
 logger = logging.getLogger(__name__)
 
-CERESTRACK_BASE_URL = "https://celestrak.com/NORAD/elements"
+CELESTRAK_BASE_URL = "https://celestrak.com/NORAD/elements"
 
-# celestrak.com のSSL証明書が期限切れになることがあるため、検証を無効化
+# celestrak.com のSSL証明書が期限切れになることがある。
+# MITM リスクは運用上許容済み。
 _ssl_ctx = ssl.create_default_context()
 _ssl_ctx.check_hostname = False
 _ssl_ctx.verify_mode = ssl.CERT_NONE
+logger.warning("SSL certificate verification is disabled for celestrak.com (CERT_NONE). MITM risk accepted.")
 
 
 @retry(max_retry=3, retry_interval=0.1, raise_on=[ValueError])
 def get_tle(CATNR: str):
-    url = f"{CERESTRACK_BASE_URL}/gp.php?CATNR={CATNR}"
+    url = f"{CELESTRAK_BASE_URL}/gp.php?CATNR={CATNR}"
     logger.debug(f"Loading {url}")
-    response = urlopen(url, context=_ssl_ctx)
-
-    content = response.read().decode("utf-8")
+    with urlopen(url, context=_ssl_ctx) as response:
+        content = response.read().decode("utf-8")
     content = "\n".join(content.splitlines()) + "\n"
     if len(content.splitlines()) != 3:
         raise ValueError(f"Error loading {url}: {content}")
