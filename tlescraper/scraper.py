@@ -19,7 +19,7 @@ logger.warning("SSL certificate verification is disabled for celestrak.com (CERT
 
 @retry(max_retry=3, retry_interval=0.1, raise_on=[ValueError])
 def get_tle(CATNR: str):
-    url = f"{CELESTRAK_BASE_URL}/gp.php?CATNR={CATNR}"
+    url = f"{CELESTRAK_BASE_URL}/gp.php?FORMAT=tle&CATNR={CATNR}"
     logger.debug(f"Loading {url}")
     with urlopen(url, context=_ssl_ctx) as response:
         content = response.read().decode("utf-8")
